@@ -1,0 +1,24 @@
+{
+  "name": "ebac",
+  "version": "1.0.0",
+  "description": "Travessia",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rayannecmoro/ebac-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rayannecmoro/ebac-js/issues"
+  },
+  "homepage": "https://github.com/rayannecmoro/ebac-js#readme",
+  "dependencies": {
+    "bootstrap": "^5.1.3",
+    "jquery": "^3.6.0"
+  }
+}
