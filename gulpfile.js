@@ -1,7 +1,6 @@
 const { series, parallel } = require('gulp')
 const gulp = require('gulp')
 const concat = require('gulp-concat')
-const gulpCssmin = require('gulp-cssmin')
 const cssmin = require('gulp-cssmin')
 const rename = require('gulp-rename')
 const uglify = require('gulp-uglify')
@@ -9,13 +8,15 @@ const uglify = require('gulp-uglify')
 const stripJs = require('gulp-strip-comments')
 const stripCss = require('gulp-strip-css-comments')
 const htmlmin = require('gulp-htmlmin')
+const babel = require('gulp-babel')
 
 function tarefasCSS(cb) {
-    gulp.src('./src/css/**/*.css')
-        .pipe(concat('libs.css'))
-        .pipe(cssmin())
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest('./dist/css'))
+    gulp.src('./src/scss/**/*.scss')
+        .pipe(stripCss())
+        // .pipe(cssmin())
+        .pipe(concat('styles.css'))
+        // .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest('./src/css'))
 
     return cb()
 }
@@ -23,11 +24,11 @@ function tarefasCSS(cb) {
 function tarefasSCSS(cb) {
     gulp.src([
         './node_modules/bootstrap/dist/css/bootstrap.css',
-        './src/scss/style.scss'
+        './src/css/styles.css'
     ])
-        // './src/scss/**/*.scss',
-        .pipe(concat('libs.css'))
+        .pipe(stripCss())
         .pipe(cssmin())
+        .pipe(concat('libs.css'))
         .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest('./dist/css'))
     
@@ -38,9 +39,12 @@ function tarefasJS(callback) {
     gulp.src([
         './node_modules/jquery/dist/jquery.js',
         './node_modules/bootstrap/dist/js/bootstrap.js',
-        './src/js/form.js'
+        './src/js/**/*.js'
     ])
-        // './src/js/**/*.js'
+        .pipe(babel({
+            comments: false, 
+            presets: ['@babel/env']
+        }))
         .pipe(concat('libs.js'))
         .pipe(uglify())
         .pipe(rename({ suffix: '.min' }))
@@ -74,7 +78,7 @@ function tarefasHTML(callback) {
     return callback()
 }
 
-exports.stylesCss = tarefasCSS
+exports.css = tarefasCSS
 exports.styles = tarefasSCSS
 exports.scripts = tarefasJS
 exports.image = tarefasImages
